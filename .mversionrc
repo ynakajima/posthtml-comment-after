@@ -1,0 +1,6 @@
+{
+  "commitMessage": "chore(ver): v%s",
+  "scripts": {
+    "precommit": "conventional-changelog -p angular -i CHANGELOG.md -s && git add ."
+  }
+}
