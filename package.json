@@ -1,7 +1,7 @@
 {
   "name": "posthtml-comment-after",
   "description": "PostHTML plugin description",
-  "version": "1.1.0",
+  "version": "0.0.0",
   "author": "ynakajima<yuhta.nakajima@gmail.com>",
   "ava": {
     "verbose": "true"
