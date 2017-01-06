@@ -1,6 +1,6 @@
 {
   "name": "posthtml-comment-after",
-  "description": "PostHTML plugin description",
+  "description": "A PostHTML plug-in that adds comments after HTML elements.",
   "version": "0.0.0",
   "author": "ynakajima<yuhta.nakajima@gmail.com>",
   "ava": {
@@ -28,7 +28,8 @@
   "keywords": [
     "html",
     "posthtml",
-    "posthtml-plugin"
+    "posthtml-plugin",
+    "comment"
   ],
   "license": "MIT",
   "main": "lib",
