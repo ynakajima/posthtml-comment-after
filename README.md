@@ -227,7 +227,7 @@ After:
 
 You can specify the comment format freely by [underscore template format](http://underscorejs.org/#template).
 
-> **note**: This option *overrides* `output.idTemplate`, `output.classTemplate`, `output.beforeText`, and `output.afterText`.
+> **Note**: This option *overrides* `output.idTemplate`, `output.classTemplate`, `output.beforeText`, and `output.afterText`.
 
 #### Default
 * output.template: `false`
@@ -265,14 +265,14 @@ After:
   </body>
 </html>
 ```
-> **note**: If the compiled text is empty, comments are not inserted.
+> **Note**: If the compiled text is empty, comments are not inserted.
 
 
 ### output.compiler
 
 You can freely customize the comment contents with the function you created.
 
-> **note**: This option *overrides* `output.template`, `output.idTemplate`, `output.classTemplate`, `output.beforeText`, and `output.afterText`.
+> **Note**: This option *overrides* `output.template`, `output.idTemplate`, `output.classTemplate`, `output.beforeText`, and `output.afterText`.
 
 #### Default
 * output.compiler: `false`
@@ -325,7 +325,7 @@ After:
   </body>
 </html>
 ```
-> **note**: If the compiled text is empty, comments are not inserted.
+> **Note**: If the compiled text is empty, comments are not inserted.
 
 ### replaceAdjacentHyphens
 
@@ -334,7 +334,7 @@ You can specify whether to replace adjacent hyphens.
 #### Default
 * replaceAdjacentHyphens: `false`
 
-> *Note*: In WHATWG 's HTML, it is now allowed to accept adjacent hyphens in comments. ([Update commit of 2016-06-21](https://github.com/whatwg/html/commit/518d16fdc672d1023dcfd2847d86f559d13a842f))
+> **Note**: In WHATWG 's HTML, it is now allowed to accept adjacent hyphens in comments. ([Update commit of 2016-06-21](https://github.com/whatwg/html/commit/518d16fdc672d1023dcfd2847d86f559d13a842f))
 
 Add option:
 ``` js
