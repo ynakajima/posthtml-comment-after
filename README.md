@@ -1,98 +1,509 @@
-# PostHTML Plugin Boilerplate <img align="right" width="220" height="200" title="PostHTML logo" src="http://posthtml.github.io/posthtml/logo.svg">
+# PostHTML Comment After Plugin <img align="right" width="220" height="200" title="PostHTML logo" src="http://posthtml.github.io/posthtml/logo.svg">
 
 [![NPM][npm]][npm-url]
 [![Deps][deps]][deps-url]
-[![Build][build]][build-badge]
-[![Coverage][cover]][cover-badge]
 [![Standard Code Style][style]][style-url]
-[![Chat][chat]][chat-badge]
 
-Clone this repo and explain what your plugin do and why thousands of people need it ;)
+> A PostHTML plug-in that adds comments after HTML elements.
 
 Before:
 ``` html
 <html>
   <body>
-    <p class="wow">OMG</p>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+    </div>
   </body>
 </html>
 ```
 
 After:
 ``` html
-<svg xmlns="http://www.w3.org/2000/svg">
-  <text class="wow" id="wow_id" fill="#4A83B4" fill-rule="evenodd" font-family="Verdana">
-    OMG
-  </text>
-</svg>
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p><!-- /.wow -->
+    </div><!-- /#wrapper.container -->
+  </body>
+</html>
 ```
 
 ## Install
 
-Describe how big guys can install your plugin.
-
-> npm i posthtml posthtml-plugin
+    npm install posthtml posthtml-comment-after --save-dev
 
 ## Usage
-
-Describe how people can use this plugin. Include info about build systems if it's
-necessary.
 
 ``` js
 const fs = require('fs');
 const posthtml = require('posthtml');
-const posthtmlPlugin = require('posthtml-plugin');
+const commentAfter = require('posthtml-comment-after');
 
 posthtml()
-    .use(posthtmlPlugin({ /* options */ }))
-    .process(html/*, options */)
-    .then(result => fs.writeFileSync('./after.html', result.html));
+  .use(commentAfter())
+  .process(html)
+  .then(result => fs.writeFileSync('./after.html', result.html));
 ```
 
 ## Options
 
-Describe all features of your plugin with examples of usage.
+### sameline
 
-### Feature
+You can specify whether to insert comments on the same line. 
+
+#### Default
+* sameline: `true`
+
+Add option:
+``` js
+const option = {
+  sameline: false
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
 Before:
 ``` html
 <html>
   <body>
-    <p>OMG</p>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+    </div>
   </body>
 </html>
 ```
+After: *comment is inserted after a line break.*
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+      <!-- /.wow -->
+    </div>
+    <!-- /#wrapper.container -->
+  </body>
+</html>
+```
+
+### output.id<br />output.class
+
+You can specify display / non-display of `id` and `class` name in comment. 
+
+#### Default
+* output.id: `true`
+* output.class: `true`
+
 Add option:
 ``` js
-const fs = require('fs');
-const posthtml = require('posthtml');
-const posthtmlPlugin = require('posthtml-plugin');
+const option = {
+  output: {
+    id: true,
+    class: false
+  }
+};
 
 posthtml()
-    .use(posthtmlPlugin({ feature: 'wow' }))
-    .process(html/*, options */)
-    .then(result => fs.writeFileSync('./after.html', result.html));
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => fs.writeFileSync('./after.html', result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+    </div>
+  </body>
+</html>
+```
+After: *id name is displayed, and class name is hidden.*
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+    </div><!-- /#wrapper -->
+  </body>
+</html>
+```
+> **Note**: If both are set to false, comments will not be inserted.
+
+
+### output.beforeText<br />output.afterText
+
+You can specify the text to insert before and after the comment. 
+
+#### Default
+* output.beforeText: `'/'`
+* output.afterText: `''`
+
+Add option:
+``` js
+const option = {
+  output: {
+    beforeText: 'End of '
+    afterText: ' !!!!' 
+  }
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => fs.writeFileSync('./after.html', result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+    </div>
+  </body>
+</html>
 ```
 After:
 ``` html
 <html>
   <body>
-    <p class="wow">OMG</p>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p><!-- End of .wow !!!! -->
+    </div><!-- End of #wrapper.container !!!! -->
   </body>
 </html>
 ```
 
-### Contributing
+
+### output.idTemplate<br />output.classTemplate
+
+You can specify how id names and class names are displayed in comments by [underscore template format](http://underscorejs.org/#template).
+
+#### Default
+* output.idTemplate: `'#<%= attrs.id %>'`
+* output.classTemplate: `'.<% print(attrs.class.replace(/ +/g, ".")); %>'`
+
+> **Note**: The variables that can be used in the template are [PostHTML AST Node properties](https://github.com/posthtml/posthtml-parser#posthtml-ast-format).
+
+Add option:
+``` js
+const option = {
+  output: {
+    idTemplate: ' id: <%= attrs.id.toUpperCase() %>',
+    classTemplate: ' class: <%= attrs.class.replace(/\s+/g, ", ") %>' 
+  }
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow foooo">OMG</p>
+    </div>
+  </body>
+</html>
+```
+After:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow foooo">OMG</p><!-- / class: wow, foooo -->
+    </div><!-- / id: WRAPPER class: container -->
+  </body>
+</html>
+```
+
+
+### output.template
+
+You can specify the comment format freely by [underscore template format](http://underscorejs.org/#template).
+
+> **note**: This option *overrides* `output.idTemplate`, `output.classTemplate`, `output.beforeText`, and `output.afterText`.
+
+#### Default
+* output.template: `false`
+
+Add option:
+``` js
+const option = {
+  output: {
+    template: '<% if (attrs.id) { %>=== end of <%= attrs.id %> ===<% } %>'
+  }
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+    </div>
+  </body>
+</html>
+```
+After:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow">OMG</p>
+    </div><!-- === end of wrapper === -->
+  </body>
+</html>
+```
+> **note**: If the compiled text is empty, comments are not inserted.
+
+
+### output.compiler
+
+You can freely customize the comment contents with the function you created.
+
+> **note**: This option *overrides* `output.template`, `output.idTemplate`, `output.classTemplate`, `output.beforeText`, and `output.afterText`.
+
+#### Default
+* output.compiler: `false`
+
+Add option:
+``` js
+function myCompiler (className) {
+
+  return function (node) {
+    if (!node.attrs || !node.attrs.class) {
+      return '';
+    }
+    
+    if (node.attrs.class.split(' ').includes(className)) {
+      return `👈 This Element has .${className} !!!`;
+    }
+    return '';
+  };
+
+}
+
+const option = {
+  output: {
+    compiler: myCompiler('wow')
+  }
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow foooo">OMG</p>
+    </div>
+  </body>
+</html>
+```
+After:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <p class="wow foooo">OMG</p><!-- 👈 This Element has .wow !!! -->
+    </div>
+  </body>
+</html>
+```
+> **note**: If the compiled text is empty, comments are not inserted.
+
+### replaceAdjacentHyphens
+
+You can specify whether to replace adjacent hyphens.
+
+#### Default
+* replaceAdjacentHyphens: `false`
+
+> *Note*: In WHATWG 's HTML, it is now allowed to accept adjacent hyphens in comments. ([Update commit of 2016-06-21](https://github.com/whatwg/html/commit/518d16fdc672d1023dcfd2847d86f559d13a842f))
+
+Add option:
+``` js
+const option = {
+  replaceAdjacentHyphens: true
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <a class="btn btn--large">OMG</a>
+    </div>
+  </body>
+</html>
+```
+After: *If `true` is specified, it is replaced with '__'.*
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <a class="btn btn--large">OMG</a><!-- /.btn.btn__large -->
+    </div><!-- #wrapper.container -->
+  </body>
+</html>
+```
+
+Add option:
+``` js
+const option = {
+  replaceAdjacentHyphens: '~~'
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+After:
+``` html
+<html>
+  <body>
+    <div id="wrapper" class="container">
+      <a class="btn btn--large">OMG</a><!-- /.btn.btn~~large -->
+    </div><!-- #wrapper.container -->
+  </body>
+</html>
+```
+
+
+### match
+
+You can specify [expression](https://github.com/posthtml/posthtml/blob/master/docs/api.md#treematchexpression-cb--function) to match the node.
+
+#### Default
+* match: `false`
+
+Add option:
+``` js
+const option = {
+  match: {
+    attrs: {
+      class: /^(?!.*__).+$/ // match class not including '__'.
+    }
+  }
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div class="block">
+      <p class="block__elem"></p>
+    </div>
+    <div class="block block--mod">
+      <p class="block__elem"></p>
+      <p class="block__elem"></p>
+    </div>
+  </body>
+</html>
+```
+After: *comment is inserted only in BEM Block*
+``` html
+<html>
+  <body>
+    <div class="block">
+      <p class="block__elem"></p>
+    </div><!-- /.block -->
+    <div class="block block--mod">
+      <p class="block__elem"></p>
+      <p class="block__elem"></p>
+    </div><!-- /.block.block--mod -->
+  </body>
+</html>
+```
+
+
+### targetAttribute
+
+Insert comments only on elements with specified attributes.
+
+#### Default
+* targetAttribute: `false`
+
+Add option:
+``` js
+const option = {
+  targetAttribute: 'data-posthtml-comment-after'
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div class="block" data-posthtml-comment-after>
+      <p class="block__elem"></p>
+    </div>
+    <div class="block block--mod">
+      <p class="block__elem" data-posthtml-comment-after></p>
+      <p class="block__elem"></p>
+    </div>
+  </body>
+</html>
+```
+After:
+``` html
+<html>
+  <body>
+    <div class="block">
+      <p class="block__elem"></p>
+    </div><!-- /.block -->
+    <div class="block block--mod">
+      <p class="block__elem"></p><!-- /.block__elem -->
+      <p class="block__elem"></p>
+    </div>
+  </body>
+</html>
+```
+
+
+## Contributing
 
 See [PostHTML Guidelines](https://github.com/posthtml/posthtml/tree/master/docs) and [contribution guide](CONTRIBUTING.md).
 
-### License [MIT](LICENSE)
+## License
 
-[npm]: https://img.shields.io/npm/v/posthtml.svg
-[npm-url]: https://npmjs.com/package/posthtml
+[MIT](LICENSE)
 
-[deps]: https://david-dm.org/posthtml/posthtml.svg
-[deps-url]: https://david-dm.org/posthtml/posthtml
+[npm]: https://img.shields.io/npm/v/posthtml-comment-after.svg
+[npm-url]: https://npmjs.com/package/posthtml-comment-after
+
+[deps]: https://david-dm.org/posthtml/posthtml-comment-after.svg
+[deps-url]: https://david-dm.org/posthtml/posthtml-comment-after
 
 [style]: https://img.shields.io/badge/code%20style-standard-yellow.svg
 [style-url]: http://standardjs.com/
@@ -103,6 +514,3 @@ See [PostHTML Guidelines](https://github.com/posthtml/posthtml/tree/master/docs)
 [cover]: https://coveralls.io/repos/posthtml/posthtml/badge.svg?branch=master
 [cover-badge]: https://coveralls.io/r/posthtml/posthtml?branch=master
 
-
-[chat]: https://badges.gitter.im/posthtml/posthtml.svg
-[chat-badge]: https://gitter.im/posthtml/posthtml?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge"
