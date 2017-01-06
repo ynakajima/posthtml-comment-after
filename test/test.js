@@ -53,23 +53,6 @@ test('option.newline', (t) => {
   ])
 })
 
-test('option.commentAttribute.name', (t) => {
-  const html = '<div id="id" class="class1 class2" my-comment="My Comment" data-posthtml-comment-after="Comment After"></div>'
-  const expected = '<div id="id" class="class1 class2" data-posthtml-comment-after="Comment After"></div><!-- My Comment -->'
-  return compare(t, html, expected, {commentAttribute: {name: 'my-comment'}})
-})
-
-test('option.commentAttribute.ignore', (t) => {
-  const html = '<div id="id" class="class1 class2" data-posthtml-comment-after="Comment After"></div>'
-  const expected = '<div id="id" class="class1 class2"></div><!-- /#id.class1.class2 -->'
-  return compare(t, html, expected, {commentAttribute: {ignore: true}})
-})
-
-test('option.commentAttribute.remove', (t) => {
-  const html = '<div id="id" class="class1 class2" data-posthtml-comment-after="Comment After"></div>'
-  return compare(t, html, `${html}<!-- Comment After -->`, {commentAttribute: {remove: false}})
-})
-
 test('option.replaceAdjacentHyphens', (t) => {
   const html = '<div class="btn--large"></div>'
   return Promise.all([
@@ -96,10 +79,10 @@ test('option.targetAttribute', (t) => {
 /**
  * TODO: Priority Test
  * # match
- * match > targetAttribute > commentAttribute
+ * match > targetAttribute
  *
  * # output
- * template.compiler > commentAttribute > template.template > template.id|template.class
+ * template.compiler > template.template > template.id|template.class
  *   > template.idTemplate|template.classTemplate|beforeText|afterText
  */
 
