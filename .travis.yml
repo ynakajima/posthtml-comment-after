@@ -1,6 +1,14 @@
 language: node_js
 node_js:
-  - 4
-  - 5
-  - 6
-  - stable
+- 4
+- 5
+- 6
+- stable
+deploy:
+  provider: npm
+  email: yuhta.nakajima@gmail.com
+  api_key:
+    secure: mpE1uGAlPLd3jL2NdTf1sOOPu44sP+F3nRMdL8RISD+6zw+gSb3UIxPk70Vc0/bJRiDznzssJEKafXQD8zUfEukVHHN4G43q7K4L6Am5JbKs90zWGz8YlMOay0OaVcSwVit8lR6oNDegrcvc4X3wkbtY9SaEXNIGr0Szket1Yr9kOd1lKALm+FuQBbufAK8Yy/ERDB7pExMmtUsp3Io/j6EtWKld9eZNsObDKy4j2kJ1VdVolOpiGP8DUhwG/wQdh2PQFKthgLved7Qngqjz4vdxxKk/qdQ3nivJMTDVdgN7M0YBuAvTKvFXEjBC5DdUos/I+HS379TkqHDHU7nxKAaiJveWjiv1qNI9QoYSUqoHpeZZXQjyg1btoYmJ0zxH4NwJ3E3BEw7wYLLvJhYRU9IT2hLTiAPbpUsStdW7fT1RGwY4ELSNpT9E4OJmNhTgmuVCYU8NXekX5JRtJCqaiv8Es4SaiBlJ2hwUJqpekxvQvgWmLlgebeSCOar/XTN6l6xaN/q1UbAXDakECE8lZgW/Jkp4YhlDH3G4sAvFdZzlRN//v2PrEPMPlznVj8cUP5kxFa7A2lwE39puImXomUGbHYNKPPhfm4yfoTsqdQ8wln+NhH+0fsKhrpYHiQz+TG3zyCbZC0ul4qEisPytQSaorbFd66+Aea70an+Ecjc=
+  on:
+    tags: true
+    repo: ynakajima/posthtml-comment-after
