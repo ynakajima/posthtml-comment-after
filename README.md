@@ -3,6 +3,7 @@
 [![NPM][npm]][npm-url]
 [![Deps][deps]][deps-url]
 [![Standard Code Style][style]][style-url]
+[![license MIT][license]][license-url]
 
 > A PostHTML plug-in that adds comments after HTML elements.
 
@@ -497,7 +498,7 @@ See [PostHTML Guidelines](https://github.com/posthtml/posthtml/tree/master/docs)
 
 ## License
 
-[MIT](LICENSE)
+[MIT][license-url]
 
 [npm]: https://img.shields.io/npm/v/posthtml-comment-after.svg
 [npm-url]: https://npmjs.com/package/posthtml-comment-after
@@ -514,3 +515,5 @@ See [PostHTML Guidelines](https://github.com/posthtml/posthtml/tree/master/docs)
 [cover]: https://coveralls.io/repos/posthtml/posthtml/badge.svg?branch=master
 [cover-badge]: https://coveralls.io/r/posthtml/posthtml?branch=master
 
+[license]: http://img.shields.io/badge/license-MIT-blue.svg
+[license-url]: https://github.com/ynakajima/posthtml-comment-after/blob/master/LICENSE
