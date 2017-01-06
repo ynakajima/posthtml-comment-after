@@ -2,6 +2,7 @@
 
 [![NPM][npm]][npm-url]
 [![Deps][deps]][deps-url]
+[![Build][build]][build-badge]
 [![Standard Code Style][style]][style-url]
 [![license MIT][license]][license-url]
 
@@ -509,11 +510,11 @@ See [PostHTML Guidelines](https://github.com/posthtml/posthtml/tree/master/docs)
 [style]: https://img.shields.io/badge/code%20style-standard-yellow.svg
 [style-url]: http://standardjs.com/
 
-[build]: https://travis-ci.org/posthtml/posthtml.svg?branch=master
-[build-badge]: https://travis-ci.org/posthtml/posthtml?branch=master
+[build]: https://travis-ci.org/ynakajima/posthtml-comment-after.svg?branch=master
+[build-badge]: https://travis-ci.org/ynakajima/posthtml-comment-after?branch=master
 
-[cover]: https://coveralls.io/repos/posthtml/posthtml/badge.svg?branch=master
-[cover-badge]: https://coveralls.io/r/posthtml/posthtml?branch=master
+[cover]: https://coveralls.io/repos/ynakajima/posthtml-comment-after/badge.svg?branch=master
+[cover-badge]: https://coveralls.io/r/ynakajima/posthtml-comment-after?branch=master
 
 [license]: http://img.shields.io/badge/license-MIT-blue.svg
 [license-url]: https://github.com/ynakajima/posthtml-comment-after/blob/master/LICENSE
