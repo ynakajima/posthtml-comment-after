@@ -3,6 +3,7 @@
 [![NPM][npm]][npm-url]
 [![Deps][deps]][deps-url]
 [![Build][build]][build-badge]
+[![Cover][cover]][cover-badge]
 [![Standard Code Style][style]][style-url]
 [![license MIT][license]][license-url]
 
@@ -48,18 +49,34 @@ posthtml()
 ```
 
 ## Options
+* output
+  * [sameline](#output.sameline)
+  * [id](#output.id)
+  * [class](#output.class)
+  * [idTemplate](#output.idTemplate)
+  * [classTemplate](#output.classTemplate)
+  * [beforeText](#output.beforeText)
+  * [afterText](#output.afterText)
+  * [templete](#output.template)
+  * [compiler](#output.compiler)
+  * [replaceAdjacentHyphens](#output.replaceAdjacentHyphens)
+* [targetAttribute](#targetAttribute)
+* [match](#match)
 
-### sameline
+<a id="sameline"></a>
+### output.sameline
 
 You can specify whether to insert comments on the same line. 
 
 #### Default
-* sameline: `true`
+* output.sameline: `true`
 
 Add option:
 ``` js
 const option = {
-  sameline: false
+  output: {
+    sameline: false
+  }
 };
 
 posthtml()
@@ -90,8 +107,9 @@ After: *comment is inserted after a line break.*
 </html>
 ```
 
+<a id="output.id"></a>
+<a id="output.class"></a>
 ### output.id<br />output.class
-
 You can specify display / non-display of `id` and `class` name in comment. 
 
 #### Default
@@ -135,6 +153,8 @@ After: *id name is displayed, and class name is hidden.*
 > **Note**: If both are set to false, comments will not be inserted.
 
 
+<a id="output.beforeText"></a>
+<a id="output.afterText"></a>
 ### output.beforeText<br />output.afterText
 
 You can specify the text to insert before and after the comment. 
@@ -179,6 +199,8 @@ After:
 ```
 
 
+<a id="output.idTemplate"></a>
+<a id="output.classTemplate"></a>
 ### output.idTemplate<br />output.classTemplate
 
 You can specify how id names and class names are displayed in comments by [underscore template format](http://underscorejs.org/#template).
@@ -224,7 +246,7 @@ After:
 </html>
 ```
 
-
+<a id="output.template"></a>
 ### output.template
 
 You can specify the comment format freely by [underscore template format](http://underscorejs.org/#template).
@@ -270,6 +292,7 @@ After:
 > **Note**: If the compiled text is empty, comments are not inserted.
 
 
+<a id="output.compiler"></a>
 ### output.compiler
 
 You can freely customize the comment contents with the function you created.
@@ -329,19 +352,23 @@ After:
 ```
 > **Note**: If the compiled text is empty, comments are not inserted.
 
-### replaceAdjacentHyphens
+
+<a id="output.replaceAdjacentHyphens"></a>
+### output.replaceAdjacentHyphens
 
 You can specify whether to replace adjacent hyphens.
 
 #### Default
-* replaceAdjacentHyphens: `false`
+* output.replaceAdjacentHyphens: `false`
 
 > **Note**: In WHATWG 's HTML, it is now allowed to accept adjacent hyphens in comments. ([Update commit of 2016-06-21](https://github.com/whatwg/html/commit/518d16fdc672d1023dcfd2847d86f559d13a842f))
 
 Add option:
 ``` js
 const option = {
-  replaceAdjacentHyphens: true
+  output: {
+    replaceAdjacentHyphens: true
+  }
 };
 
 posthtml()
@@ -373,7 +400,9 @@ After: *If `true` is specified, it is replaced with '__'.*
 Add option:
 ``` js
 const option = {
-  replaceAdjacentHyphens: '~~'
+  output: {
+    replaceAdjacentHyphens: '~~'
+  }
 };
 
 posthtml()
@@ -392,7 +421,56 @@ After:
 </html>
 ```
 
+<a id="targetAttribute"></a>
+### targetAttribute
 
+Insert comments only on elements with specified attributes.
+
+#### Default
+* targetAttribute: `false`
+
+Add option:
+``` js
+const option = {
+  targetAttribute: 'data-posthtml-comment-after'
+};
+
+posthtml()
+  .use(commentAfter(option))
+  .process(html)
+  .then(result => console.log(result.html));
+```
+Before:
+``` html
+<html>
+  <body>
+    <div class="block" data-posthtml-comment-after>
+      <p class="block__elem"></p>
+    </div>
+    <div class="block block--mod">
+      <p class="block__elem" data-posthtml-comment-after></p>
+      <p class="block__elem"></p>
+    </div>
+  </body>
+</html>
+```
+After:
+``` html
+<html>
+  <body>
+    <div class="block">
+      <p class="block__elem"></p>
+    </div><!-- /.block -->
+    <div class="block block--mod">
+      <p class="block__elem"></p><!-- /.block__elem -->
+      <p class="block__elem"></p>
+    </div>
+  </body>
+</html>
+```
+
+
+<a id="match"></a>
 ### match
 
 You can specify [expression](https://github.com/posthtml/posthtml/blob/master/docs/api.md#treematchexpression-cb--function) to match the node.
@@ -440,54 +518,6 @@ After: *comment is inserted only in BEM Block*
       <p class="block__elem"></p>
       <p class="block__elem"></p>
     </div><!-- /.block.block--mod -->
-  </body>
-</html>
-```
-
-
-### targetAttribute
-
-Insert comments only on elements with specified attributes.
-
-#### Default
-* targetAttribute: `false`
-
-Add option:
-``` js
-const option = {
-  targetAttribute: 'data-posthtml-comment-after'
-};
-
-posthtml()
-  .use(commentAfter(option))
-  .process(html)
-  .then(result => console.log(result.html));
-```
-Before:
-``` html
-<html>
-  <body>
-    <div class="block" data-posthtml-comment-after>
-      <p class="block__elem"></p>
-    </div>
-    <div class="block block--mod">
-      <p class="block__elem" data-posthtml-comment-after></p>
-      <p class="block__elem"></p>
-    </div>
-  </body>
-</html>
-```
-After:
-``` html
-<html>
-  <body>
-    <div class="block">
-      <p class="block__elem"></p>
-    </div><!-- /.block -->
-    <div class="block block--mod">
-      <p class="block__elem"></p><!-- /.block__elem -->
-      <p class="block__elem"></p>
-    </div>
   </body>
 </html>
 ```
