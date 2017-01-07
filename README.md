@@ -194,7 +194,7 @@ Add option:
 const option = {
   output: {
     idTemplate: ' id: <%= attrs.id.toUpperCase() %>',
-    classTemplate: ' class: <%= attrs.class.replace(/\s+/g, ", ") %>' 
+    classTemplate: ' class: <%= attrs.class.trim().replace(/\\s+/g, ", ") %>' 
   }
 };
 
