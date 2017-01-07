@@ -5,7 +5,7 @@ import _ from 'lodash'
  */
 const defaultOption = {
   output: {
-    sameline: false,
+    sameline: true,
     id: true,
     idTemplate: '#<%= attrs.id %>',
     class: true,
@@ -95,7 +95,7 @@ export default function PostHTMLAfterCommentPlugin (option) {
 
       // return result
       const nodeWithComment = [node]
-      if (option.output.sameline) {
+      if (!option.output.sameline) {
         nodeWithComment.push(currentIndent)
       }
       if (comment !== '') {

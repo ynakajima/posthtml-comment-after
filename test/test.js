@@ -84,8 +84,8 @@ test('option.output.sameline', (t) => {
   const htmlTab = '<p>\n\t<span id="foo"></span>\n</p>'
   const expectedTab = '<p>\n\t<span id="foo"></span>\n\t<!-- /#foo -->\n</p>'
   return Promise.all([
-    compare(t, html, expected, {output: {sameline: true}}),
-    compare(t, htmlTab, expectedTab, {output: {sameline: true}})
+    compare(t, html, expected, {output: {sameline: false}}),
+    compare(t, htmlTab, expectedTab, {output: {sameline: false}})
   ])
 })
 
