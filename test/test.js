@@ -66,12 +66,12 @@ test('option.output.compiler', (t) => {
 })
 
 test('option.output.beforeText', (t) => {
-  const html = '<div id="id" class="class1 class2"></div>'
+  const html = '<div id="id" class="class1\tclass2"></div>'
   return compare(t, html, `${html}<!-- end of #id.class1.class2 -->`, {output: {beforeText: 'end of '}})
 })
 
 test('option.output.afterText', (t) => {
-  const html = '<div id="id" class="class1 class2"></div>'
+  const html = '<div id="id" class=" class1  class2 "></div>'
   return compare(t, html, `${html}<!-- /#id.class1.class2 !!! -->`, {output: {afterText: ' !!!'}})
 })
 

@@ -185,7 +185,7 @@ You can specify how id names and class names are displayed in comments by [under
 
 #### Default
 * output.idTemplate: `'#<%= attrs.id %>'`
-* output.classTemplate: `'.<% print(attrs.class.replace(/ +/g, ".")); %>'`
+* output.classTemplate: `'.<% print(attrs.class.trim().replace(/\\s+/g, ".")); %>'`
 
 > **Note**: The variables that can be used in the template are [PostHTML AST Node properties](https://github.com/posthtml/posthtml-parser#posthtml-ast-format).
 
