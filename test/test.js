@@ -13,14 +13,44 @@ test('basic', (t) => {
   return compare(t, html, expected)
 })
 
-test('option.template', (t) => {
+test('option.output.id, option.output.class', (t) => {
+  const html = '<div id="id" class="class1 class2">text</div>'
+  return Promise.all([
+    compare(t, html, `${html}<!-- /#id -->`, {output: {class: false}}),
+    compare(t, html, `${html}<!-- /.class1.class2 -->`, {output: {id: false}}),
+    compare(t, html, `${html}`, {output: {id: false, class: false}})
+  ])
+})
+
+test('option.output.idTemplate, option.output.classTemplate', (t) => {
   const html = '<div id="id" class="class1 class2">text</div>'
   const templateOption = {
-    template: {
+    output: {
       idTemplate: ' id="<%= attrs.id %>"',
       classTemplate: ' class="<%= attrs.class %>"'
     }
   }
+  return Promise.all([
+    compare(t, html, `${html}<!-- / id="id" class="class1 class2" -->`, templateOption)
+  ])
+})
+
+test('option.output.template', (t) => {
+  const html = '<div id="id" class="class1 class2">text</div>'
+  const expect = `${html}<!-- end of ID -->`
+  const option = {
+    output: {
+      template: 'end of <%= attrs.id.toUpperCase() %>'
+    }
+  }
+  return Promise.all([
+    compare(t, html, expect, option)
+  ])
+})
+
+test('option.output.compiler', (t) => {
+  const html = '<div id="id" class="class1 class2">text</div>'
+  const expect = `${html}<!-- ====== end #id (class1,class2) ====== -->`
   const compiler = function (node) {
     const classes = node.attrs.class.replace(/ +/g, ',')
     const comment = []
@@ -31,31 +61,28 @@ test('option.template', (t) => {
     return comment.join(' ')
   }
   return Promise.all([
-    compare(t, html, `${html}<!-- /#id -->`, {template: {class: false}}),
-    compare(t, html, `${html}<!-- /.class1.class2 -->`, {template: {id: false}}),
-    compare(t, html, `${html}`, {template: {id: false, class: false}}),
-    compare(t, html, `${html}<!-- / id="id" class="class1 class2" -->`, templateOption),
-    compare(t, html, `${html}<!-- end of ID -->`, {template: {template: 'end of <%= attrs.id.toUpperCase() %>'}}),
-    compare(t, html, `${html}<!-- ====== end #id (class1,class2) ====== -->`, {template: {compiler: compiler}})
+    compare(t, html, expect, {output: {compiler: compiler}})
   ])
 })
 
-test('option.beforeText', (t) => {
+test('option.output.beforeText', (t) => {
   const html = '<div id="id" class="class1 class2"></div>'
-  return compare(t, html, `${html}<!-- end of #id.class1.class2 -->`, {beforeText: 'end of '})
+  return compare(t, html, `${html}<!-- end of #id.class1.class2 -->`, {output: {beforeText: 'end of '}})
 })
 
-test('option.afterText', (t) => {
+test('option.output.afterText', (t) => {
   const html = '<div id="id" class="class1 class2"></div>'
-  return compare(t, html, `${html}<!-- /#id.class1.class2 !!! -->`, {afterText: ' !!!'})
+  return compare(t, html, `${html}<!-- /#id.class1.class2 !!! -->`, {output: {afterText: ' !!!'}})
 })
 
-test('option.newline', (t) => {
+test('option.sameline', (t) => {
   const html = readFileSync(path.join(fixtures, 'basic.html'), 'utf8')
-  const expected = readFileSync(path.join(fixtures, 'newline.expected.html'), 'utf8')
+  const expected = readFileSync(path.join(fixtures, 'sameline.expected.html'), 'utf8')
+  const htmlTab = '<p>\n\t<span id="foo"></span>\n</p>'
+  const expectedTab = '<p>\n\t<span id="foo"></span>\n\t<!-- /#foo -->\n</p>'
   return Promise.all([
-    compare(t, html, expected, {newline: true}),
-    compare(t, '<p>\n\t<span id="foo"></span>\n</p>', '<p>\n\t<span id="foo"></span>\n\t<!-- /#foo -->\n</p>', {newline: true})
+    compare(t, html, expected, {sameline: true}),
+    compare(t, htmlTab, expectedTab, {sameline: true})
   ])
 })
 
