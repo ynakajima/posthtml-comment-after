@@ -77,23 +77,23 @@ test('option.output.afterText', (t) => {
   return compare(t, html, `${html}<!-- /#id.class1.class2 !!! -->`, {output: {afterText: ' !!!'}})
 })
 
-test('option.sameline', (t) => {
+test('option.output.sameline', (t) => {
   const html = readFileSync(path.join(fixtures, 'basic.html'), 'utf8')
   const expected = readFileSync(path.join(fixtures, 'sameline.expected.html'), 'utf8')
   const htmlTab = '<p>\n\t<span id="foo"></span>\n</p>'
   const expectedTab = '<p>\n\t<span id="foo"></span>\n\t<!-- /#foo -->\n</p>'
   return Promise.all([
-    compare(t, html, expected, {sameline: true}),
-    compare(t, htmlTab, expectedTab, {sameline: true})
+    compare(t, html, expected, {output: {sameline: true}}),
+    compare(t, htmlTab, expectedTab, {output: {sameline: true}})
   ])
 })
 
-test('option.replaceAdjacentHyphens', (t) => {
+test('option.output.replaceAdjacentHyphens', (t) => {
   const html = '<div class="btn--large"></div>'
   return Promise.all([
-    compare(t, html, `${html}<!-- /.btn__large -->`, {replaceAdjacentHyphens: true}),
-    compare(t, html, `${html}<!-- /.btn~~large -->`, {replaceAdjacentHyphens: '~~'}),
-    compare(t, html, `${html}<!-- /.btnlarge -->`, {replaceAdjacentHyphens: ''})
+    compare(t, html, `${html}<!-- /.btn__large -->`, {output: {replaceAdjacentHyphens: true}}),
+    compare(t, html, `${html}<!-- /.btn~~large -->`, {output: {replaceAdjacentHyphens: '~~'}}),
+    compare(t, html, `${html}<!-- /.btnlarge -->`, {output: {replaceAdjacentHyphens: ''}})
   ])
 })
 
