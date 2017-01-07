@@ -1,7 +1,7 @@
 {
   "name": "posthtml-comment-after",
   "description": "A PostHTML plug-in that adds comments after HTML elements.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "author": "ynakajima<yuhta.nakajima@gmail.com>",
   "ava": {
     "verbose": "true"

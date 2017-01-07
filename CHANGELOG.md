@@ -1,3 +1,13 @@
+<a name="0.5.1"></a>
+## [0.5.1](https://github.com/ynakajima/posthtml-comment-after/compare/v0.5.0...v0.5.1) (2017-01-07)
+
+
+### Bug Fixes
+
+* #4 option.output.sameline is opposite ([5a7bf70](https://github.com/ynakajima/posthtml-comment-after/commit/5a7bf70))
+
+
+
 <a name="0.5.0"></a>
 # 0.5.0 (2017-01-07)
 
