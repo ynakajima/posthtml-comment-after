@@ -22,7 +22,13 @@ test('option.template', (t) => {
     }
   }
   const compiler = function (node) {
-    return `====== end #${node.attrs.id} (${node.attrs.class.replace(/ +/g, ',')}) ======`
+    const classes = node.attrs.class.replace(/ +/g, ',')
+    const comment = []
+    comment.push('======')
+    comment.push(`end #${node.attrs.id}`)
+    comment.push(`(${classes})`)
+    comment.push('======')
+    return comment.join(' ')
   }
   return Promise.all([
     compare(t, html, `${html}<!-- /#id -->`, {template: {class: false}}),
