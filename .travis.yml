@@ -5,12 +5,12 @@ node_js:
 - 6
 - stable
 after_success:
-  - './node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls'
+- ./node_modules/.bin/nyc report --reporter=text-lcov | ./node_modules/.bin/coveralls
 deploy:
   provider: npm
   email: yuhta.nakajima@gmail.com
   api_key:
-    secure: mpE1uGAlPLd3jL2NdTf1sOOPu44sP+F3nRMdL8RISD+6zw+gSb3UIxPk70Vc0/bJRiDznzssJEKafXQD8zUfEukVHHN4G43q7K4L6Am5JbKs90zWGz8YlMOay0OaVcSwVit8lR6oNDegrcvc4X3wkbtY9SaEXNIGr0Szket1Yr9kOd1lKALm+FuQBbufAK8Yy/ERDB7pExMmtUsp3Io/j6EtWKld9eZNsObDKy4j2kJ1VdVolOpiGP8DUhwG/wQdh2PQFKthgLved7Qngqjz4vdxxKk/qdQ3nivJMTDVdgN7M0YBuAvTKvFXEjBC5DdUos/I+HS379TkqHDHU7nxKAaiJveWjiv1qNI9QoYSUqoHpeZZXQjyg1btoYmJ0zxH4NwJ3E3BEw7wYLLvJhYRU9IT2hLTiAPbpUsStdW7fT1RGwY4ELSNpT9E4OJmNhTgmuVCYU8NXekX5JRtJCqaiv8Es4SaiBlJ2hwUJqpekxvQvgWmLlgebeSCOar/XTN6l6xaN/q1UbAXDakECE8lZgW/Jkp4YhlDH3G4sAvFdZzlRN//v2PrEPMPlznVj8cUP5kxFa7A2lwE39puImXomUGbHYNKPPhfm4yfoTsqdQ8wln+NhH+0fsKhrpYHiQz+TG3zyCbZC0ul4qEisPytQSaorbFd66+Aea70an+Ecjc=
+    secure: ejWTwrJ/IQHNQBxnXDKpVi9l1qUMDC0I0jcjG3oRSN0/gIhgBSs4vA6sAJx4aRz0tg5K0XtJXg2bDkqXxCz7u4WgX34UxmLdbnL1JUEHaOTsMd1dBMrvGRBmj+X/FLCzb2a02kbVkh9O6BpyqAf9QJY6niCmgoIaJU8vxUYfY9+CcxuhXJD45ewBVy+JBvekleTzqreblT5rdsfZTot1y1bgOJ6eNyi+uBdFpv+qm0U+Rusmt4JFPCrPSKZfJs0rq9zaSDw/B61i6+S4rw71cEjavYiNL+tV5wyBbRWj+CoW6hBoGn5ERpD1lAXhxKSY/kPHZ81a5ff6b2fk+hQjLa3daZIFRAAWbR4dLp4kiiUusqsS8ZIc3/kRsolCVn2bbmG+KbWCqi7lZlrrW5bLMoGSiWKsH0LFFDmccjjiMbxnRpUVPV0zIMz63i+t10+3VvknNLofhw+9V3+FW8ycLp4BEoshgbmHH4w1RzGHoPsvfrPRKa9ZdJcCc0kD4XZjECyaZ//RkRjnro47/PteKLKhC0fJ1GnBMpQPaao7zEEd/Y03KMobHrM/m+wFslK8uogtjpylTBOjXyWhyqfGzaCbhCofPzs9EpAM1xQLDKHQuMjApPB7qQwPjj3Ewpm/jbdKaf4y2fu8OOqNZ/jL9WT0R/IbkDrJgQVwgVWyYcQ=
   on:
     tags: true
     repo: ynakajima/posthtml-comment-after
