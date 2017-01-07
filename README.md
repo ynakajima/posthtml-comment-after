@@ -534,8 +534,8 @@ See [PostHTML Guidelines](https://github.com/posthtml/posthtml/tree/master/docs)
 [npm]: https://img.shields.io/npm/v/posthtml-comment-after.svg
 [npm-url]: https://npmjs.com/package/posthtml-comment-after
 
-[deps]: https://david-dm.org/posthtml/posthtml-comment-after.svg
-[deps-url]: https://david-dm.org/posthtml/posthtml-comment-after
+[deps]: https://david-dm.org/ynakajima/posthtml-comment-after.svg
+[deps-url]: https://david-dm.org/ynakajima/posthtml-comment-after
 
 [style]: https://img.shields.io/badge/code%20style-standard-yellow.svg
 [style-url]: http://standardjs.com/
