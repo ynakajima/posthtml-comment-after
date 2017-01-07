@@ -6,6 +6,7 @@ const {readFileSync} = require('fs')
 const path = require('path')
 const posthtml = require('posthtml')
 const fixtures = path.join(__dirname, 'fixtures')
+const _ = require('lodash')
 
 test('basic', (t) => {
   const html = readFileSync(path.join(fixtures, 'basic.html'), 'utf8')
@@ -56,7 +57,7 @@ test('option.output.compiler', (t) => {
       if (!node.attrs || !node.attrs.class) {
         return ''
       }
-      if (node.attrs.class.split(' ').includes(className)) {
+      if (_.includes(node.attrs.class.split(' '), className)) {
         return '👈 This Element has .' + className + ' !!!'
       }
       return ''
