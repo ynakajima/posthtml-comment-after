@@ -27,20 +27,20 @@ test('option.output.idTemplate, option.output.classTemplate', (t) => {
   const templateOption = {
     output: {
       idTemplate: ' id="<%= attrs.id %>"',
-      classTemplate: ' class="<%= attrs.class %>"'
+      classTemplate: ' class: <%= attrs.class.trim().replace(/\\s+/g, ", ") %>'
     }
   }
   return Promise.all([
-    compare(t, html, `${html}<!-- / id="id" class="class1 class2" -->`, templateOption)
+    compare(t, html, `${html}<!-- / id="id" class: class1, class2 -->`, templateOption)
   ])
 })
 
 test('option.output.template', (t) => {
   const html = '<div id="id" class="class1 class2">text</div>'
-  const expect = `${html}<!-- end of ID -->`
+  const expect = `${html}<!-- === end of id === -->`
   const option = {
     output: {
-      template: 'end of <%= attrs.id.toUpperCase() %>'
+      template: '<% if (attrs.id) { %>=== end of <%= attrs.id %> ===<% } %>'
     }
   }
   return Promise.all([
@@ -49,19 +49,21 @@ test('option.output.template', (t) => {
 })
 
 test('option.output.compiler', (t) => {
-  const html = '<div id="id" class="class1 class2">text</div>'
-  const expect = `${html}<!-- ====== end #id (class1,class2) ====== -->`
-  const compiler = function (node) {
-    const classes = node.attrs.class.replace(/ +/g, ',')
-    const comment = []
-    comment.push('======')
-    comment.push(`end #${node.attrs.id}`)
-    comment.push(`(${classes})`)
-    comment.push('======')
-    return comment.join(' ')
+  const html = readFileSync(path.join(fixtures, 'compiler.html'), 'utf8')
+  const expected = readFileSync(path.join(fixtures, 'compiler.expected.html'), 'utf8')
+  const compiler = function (className) {
+    return function (node) {
+      if (!node.attrs || !node.attrs.class) {
+        return ''
+      }
+      if (node.attrs.class.split(' ').includes(className)) {
+        return '👈 This Element has .' + className + ' !!!'
+      }
+      return ''
+    }
   }
   return Promise.all([
-    compare(t, html, expect, {output: {compiler: compiler}})
+    compare(t, html, expected, {output: {compiler: compiler('wow')}})
   ])
 })
 
@@ -96,10 +98,10 @@ test('option.replaceAdjacentHyphens', (t) => {
 })
 
 test('option.match', (t) => {
-  const html = '<p class="class1 class2"></p><div class="btn btn--large"></div>'
+  const html = readFileSync(path.join(fixtures, 'match.html'), 'utf8')
+  const expected = readFileSync(path.join(fixtures, 'match.expected.html'), 'utf8')
   return Promise.all([
-    compare(t, html, `${html}<!-- /.btn.btn--large -->`, {match: {attrs: {class: /btn/}}}),
-    compare(t, html, '<p class="class1 class2"></p><!-- /.class1.class2 --><div class="btn btn--large"></div>', {match: {tag: 'p'}})
+    compare(t, html, expected, {match: {attrs: {class: /^(?!.*__).+$/}}})
   ])
 })
 
