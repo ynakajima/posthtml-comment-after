@@ -1,3 +1,8 @@
+<a name="0.5.3"></a>
+## [0.5.3](https://github.com/ynakajima/posthtml-comment-after/compare/v0.5.2...v0.5.3) (2017-01-09)
+
+
+
 <a name="0.5.2"></a>
 ## [0.5.2](https://github.com/ynakajima/posthtml-comment-after/compare/v0.5.1...v0.5.2) (2017-01-07)
 
