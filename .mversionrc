@@ -1,6 +1,7 @@
 {
   "commitMessage": "chore(ver): v%s",
   "scripts": {
+    "postcommit": "git checkout master && git merge develop && git push --all && git push --tags",
     "precommit": "conventional-changelog -p angular -i CHANGELOG.md -s && git add ."
   }
 }
