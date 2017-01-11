@@ -112,6 +112,15 @@ test('option.targetAttribute', (t) => {
   return compare(t, html, expected, {targetAttribute: 'data-comment-target'})
 })
 
+test('deleted __commentAfterProcessed flug', (t) => {
+  const html = readFileSync(path.join(fixtures, 'basic.html'), 'utf8')
+  return posthtml([plugin()])
+    .process(html)
+    .then((res) => {
+      t.truthy(JSON.stringify(res.tree).match(/__commentAfterProcessed/) === null)
+    })
+})
+
 /**
  * TODO: Priority Test
  * # match

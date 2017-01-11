@@ -64,44 +64,50 @@ export default function PostHTMLAfterCommentPlugin (option) {
 
   return function commentAfter (tree) {
     let currentIndent = '\n'
-    return tree.match(expression, (node) => {
-      // get current indent
-      if (typeof node === 'string') {
-        currentIndent = node
+    return tree
+      .match(expression, (node) => {
+        // get current indent
+        if (typeof node === 'string') {
+          currentIndent = node
+          return node
+        }
+
+        // ignore processed node
+        if (node.__commentAfterProcessed) {
+          return node
+        }
+
+        // generate comment
+        let comment = template(node)
+
+        // remove targetattribute
+        if (option.targetAttribute) {
+          node.attrs[option.targetAttribute] = null
+        }
+
+        // processed flug up
+        node.__commentAfterProcessed = true
+
+        // replace adjacent hyphens
+        const replaceAdjacentHyphens = option.output.replaceAdjacentHyphens
+        if (replaceAdjacentHyphens !== false) {
+          comment = comment.replace(/--/g, replaceAdjacentHyphens === true ? '__' : replaceAdjacentHyphens)
+        }
+
+        // return result
+        const nodeWithComment = [node]
+        if (!option.output.sameline) {
+          nodeWithComment.push(currentIndent)
+        }
+        if (comment !== '') {
+          nodeWithComment.push(`<!-- ${comment} -->`)
+        }
+        return nodeWithComment
+      })
+      .match({ __commentAfterProcessed: true }, (node) => {
+        // delete processed flug
+        delete node.__commentAfterProcessed
         return node
-      }
-
-      // ignore processed node
-      if (node.__commentAfterProcessed) {
-        return node
-      }
-
-      // generate comment
-      let comment = template(node)
-
-      // remove targetattribute
-      if (option.targetAttribute) {
-        node.attrs[option.targetAttribute] = null
-      }
-
-      // processed flug up
-      node.__commentAfterProcessed = true
-
-      // replace adjacent hyphens
-      const replaceAdjacentHyphens = option.output.replaceAdjacentHyphens
-      if (replaceAdjacentHyphens !== false) {
-        comment = comment.replace(/--/g, replaceAdjacentHyphens === true ? '__' : replaceAdjacentHyphens)
-      }
-
-      // return result
-      const nodeWithComment = [node]
-      if (!option.output.sameline) {
-        nodeWithComment.push(currentIndent)
-      }
-      if (comment !== '') {
-        nodeWithComment.push(`<!-- ${comment} -->`)
-      }
-      return nodeWithComment
-    })
+      })
   }
 }
